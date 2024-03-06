@@ -1,4 +1,4 @@
 package hello.core.member;
 
-public enum Grade {df
+public enum Grade {dfdf
 }
