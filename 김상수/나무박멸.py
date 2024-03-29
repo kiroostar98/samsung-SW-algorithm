@@ -34,6 +34,8 @@ def near_tree_num(x,y):
 
     return tree_num
 
+
+# 살충제 뿌릴 곳 찾기
 def get_painkiller_space():
     can_kill_trees = [[0]*n for _ in range(n)]
     max_trees = 0
