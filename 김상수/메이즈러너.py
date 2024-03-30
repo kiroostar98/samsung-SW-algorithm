@@ -147,15 +147,15 @@ for p in range(k):
     if not men:
         print(answer)
         print(" ".join(map(str, exit)))
-
+        break
     x,y,r = get_min_square()
     # print("x,y,r", x,y,r)
     rotate(x,y,r)
     # print("rotate 후", men)
     # print("rotate후 exit:", exit )
-if men:
-    print(answer)
-    print(" ".join(map(str, exit)))
+    if p==k-1:
+        print(answer)
+        print(" ".join(map(str, exit)))
 
 
 
