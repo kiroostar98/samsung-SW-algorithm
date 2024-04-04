@@ -1,0 +1,100 @@
+from collections import deque
+# 3**(N-1) 경우의 수 * N-1연산.
+# N<=11
+# 1<=숫자<=100
+
+N=int(input())
+nums = deque(list(map(int,input().split())))
+max_plus,max_minus,max_mul = map(int,input().split()) # N-1개.
+
+# 다 넣어봐야 > backtracking
+op = deque([-1 for _ in range(N-1)])
+case = []
+
+def cal():
+    total = deque([])
+    # mul_flag=0
+    # 수식을 하나의 배열로.
+    for i in range(N):
+        total.append(nums[i])
+        
+        #우선순위 고려하여, 곱셈은 미리 해서 넣어줌
+        # if mul_flag==1: # 곱셈수행
+        #     b = total.pop()
+        #     total.pop()
+        #     a = total.pop()
+        #     total.append(a*b)
+        #     mul_flag=0 # 곱셈 종료
+
+        if i == N-1: # 0~N-1 num, 0~N-2 op[]
+            break
+
+        total.append(op[i])
+        # if op[i]== '*':
+        #     mul_flag=1
+        
+
+    # print(total)
+    
+    result = total.popleft()
+    while total:
+        operator = total.popleft()
+        n = total.popleft()
+
+        if operator == '+':
+            result += n
+        elif operator=='-':
+            result -= n
+        else: # 곱
+            result *= n
+    # print("result : ",result)
+
+    return result
+
+def dfs(idx):
+    if idx > N-2:
+        # 계산수행.
+        result = cal()
+        # if result > max_ans :
+        #     max_ans = result
+        # if result < min_ans:
+        #     min_ans = result
+        case.append(result)
+        return
+
+
+    # current_plus =0
+    # current_minus=0
+    # current_mul = 0
+    # for i in range(idx-1): # 그 전까지 확인.
+    #     if op[i]=='+':  # plus
+    #         current_plus+=1
+    #     elif op[i]=='-': # minus
+    #         current_minus+=1
+    #     elif op[i]=='*': # multi
+    #         current_mul+=1
+
+    current_plus =op.count("+")
+    current_minus=op.count("-")
+    current_mul = op.count("*")
+
+    # 세 가지 부호를 모두 넣어보기.
+    if current_plus<max_plus:
+        op[idx] = "+"
+        dfs(idx+1)
+        op[idx] = -1
+
+    if current_minus<max_minus:
+        op[idx] = "-"
+        dfs(idx+1)
+        op[idx] = -1
+
+    if current_mul<max_mul:
+        op[idx] = "*"
+        dfs(idx+1)
+        op[idx] = -1
+    
+    return
+
+dfs(0)
+print(min(case), max(case))
